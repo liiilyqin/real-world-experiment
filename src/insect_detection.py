@@ -9,9 +9,9 @@ class InsectDetector:
     def __init__(self):
         # Thresholds based on light infestation experiment (0.4%~0.5% mealworms)
         self.thresholds = {
-            'mean_level': 550,    # Base CO2 threshold
-            'std_change': 0.25,   # Standard deviation threshold
-            'min_change': 0.1,    # Minimum change threshold
+            'mean_level': 680,    # Base CO2 threshold
+            'std_change': 0.05,   # Standard deviation threshold
+            'min_change': 0.3,    # Minimum change threshold
             'peak_change': 1.0    # Peak change threshold
         }
     
@@ -31,8 +31,8 @@ class InsectDetector:
                          min_change > self.thresholds['min_change'])
         
         # Calculate detection score (weighted combination)
-        score = (level_detected * 0.5 +    # Higher weight for mean level
-                std_detected * 0.3 +       # Medium weight for variation
+        score = (level_detected * 0.6 +    # Higher weight for mean level
+                std_detected * 0.2 +       # Medium weight for variation
                 change_detected * 0.2)      # Lower weight for peaks
         
         # Detection threshold lowered for better recall
@@ -107,7 +107,7 @@ def evaluate_detector(detector, worm_df, withoutworm_df, window_size='30min'):
     }
 
 def main():
-    export_dir = "exports"
+    export_dir = "cleaned_data"
     
     # Load data
     worm_df = pd.read_csv(os.path.join(export_dir, 'worm_cleaned.csv'))
